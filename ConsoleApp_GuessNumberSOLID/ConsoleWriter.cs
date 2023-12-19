@@ -9,12 +9,12 @@ namespace ConsoleApp_GuessNumberSOLID
     {
         public void PrintStartQuestion()
         {
-            Console.WriteLine("Привет, поиграем?!" + Environment.NewLine + 
-                "Угадай число, что я тебе загадаю!" + Environment.NewLine + 
+            Console.WriteLine("Привет, поиграем?!" + Environment.NewLine +
+                "Угадай число, что я тебе загадаю!" + Environment.NewLine +
                 "В каком диапазоне загадать число, от нуля до скольки?");
         }
 
-        public void PrintAnswer(Answer answer, int number) 
+        public void PrintAnswer(Answer answer, int number)
         {
             switch (answer)
             {

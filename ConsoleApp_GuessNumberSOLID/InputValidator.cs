@@ -1,13 +1,11 @@
 ﻿
-using System;
-
 namespace ConsoleApp_GuessNumberSOLID
 {
-    public class InputValidator: IValidator
+    public class InputValidator : IValidator
     {
         private INotificationService ConsoleWriter;
 
-        public InputValidator(INotificationService notificationService) 
+        public InputValidator(INotificationService notificationService)
         {
             ConsoleWriter = notificationService;
         }

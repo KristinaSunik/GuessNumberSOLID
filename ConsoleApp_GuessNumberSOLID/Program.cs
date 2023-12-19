@@ -8,13 +8,15 @@ namespace ConsoleApp_GuessNumberSOLID
         {
             bool anotherGame;
             int range, number;
+
+            Random randomizer = new Random();
+
             INotificationService notificationService = new ConsoleWriter();
             IValidator validator = new InputValidator(notificationService);
             IPlayGame playGame = new PlayGame(validator, notificationService);
-            Random randomizer = new Random();
 
             do
-            {                
+            {
                 playGame.MainPlay(GamePart.Start, out range);
                 number = randomizer.Next(range);
                 playGame.MainPlay(GamePart.Guessing, out int rightNumber, number, range);
