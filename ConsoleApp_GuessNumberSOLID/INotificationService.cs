@@ -5,6 +5,8 @@ namespace ConsoleApp_GuessNumberSOLID
     {
         void PrintStartQuestion();
 
+        void PrintTriesQuantityQuestion();
+
         void PrintAnswer(Answer answer, int number);
 
         void PrintError(ErrorType errorType, int number = 0);
