@@ -45,12 +45,15 @@
   <ItemGroup>
     <Compile Include="ErrorType.cs" />
     <Compile Include="GamePart.cs" />
+    <Compile Include="INotificationService.cs" />
+    <Compile Include="IPlayGame.cs" />
+    <Compile Include="IValidator.cs" />
     <Compile Include="PlayGame.cs" />
     <Compile Include="Answer.cs" />
     <Compile Include="ConsoleWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validator.cs" />
+    <Compile Include="InputValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

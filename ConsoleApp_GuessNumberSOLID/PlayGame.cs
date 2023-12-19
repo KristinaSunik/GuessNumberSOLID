@@ -2,12 +2,22 @@
 
 namespace ConsoleApp_GuessNumberSOLID
 {
-    public static class PlayGame
+    public class PlayGame : IPlayGame
     {
+        private IValidator Validator;
+        private INotificationService ConsoleWriter;
+
+        public PlayGame(IValidator validator, INotificationService notificationService)
+        {
+            Validator = validator;
+            ConsoleWriter = notificationService;
+        }
+
+
         /// <summary>
         /// Взаимодействие с пользователем во время игры, пока он не отгадает число.
         /// </summary>
-        public static void MainPlay(GamePart gamePart, out int checkedUserNumber, int number = 0, int range = 0)
+        public void MainPlay(GamePart gamePart, out int checkedUserNumber, int number = 0, int range = 0)
         {
             bool stillGuessing = true;
             checkedUserNumber = -1;
@@ -25,7 +35,7 @@ namespace ConsoleApp_GuessNumberSOLID
                     if (!Validator.CheckIsInRange(gamePart, checkedUserNumber, range))
                     {
                         continue;
-                    }                    
+                    }
 
                     stillGuessing = GenerateAnswer(gamePart, checkedUserNumber, number);
                 }
@@ -39,7 +49,7 @@ namespace ConsoleApp_GuessNumberSOLID
         /// <param name="checkedUserNumber">проверенный ввод пользователя</param>
         /// <param name="number">загаданное число</param>
         /// <returns></returns>
-        private static bool GenerateAnswer(GamePart gamePart, int checkedUserNumber, int number)
+        public bool GenerateAnswer(GamePart gamePart, int checkedUserNumber, int number)
         {
             switch (gamePart)
             {
@@ -61,7 +71,7 @@ namespace ConsoleApp_GuessNumberSOLID
         /// Запрос на новую игру.
         /// </summary>
         /// <returns>true - если еще раз сыграть</returns>
-        public static bool GetAnswerUserWantsContinue()
+        public bool GetAnswerUserWantsContinue()
         {
             ConsoleWriter.PrintTheReplayQuestion();
 
@@ -82,7 +92,7 @@ namespace ConsoleApp_GuessNumberSOLID
         /// Повторяет правильный ли ответ.
         /// </summary>
         /// <returns> Возвращает true - если ответ правильный </returns>
-        private static bool CheckRightAnswer(int checkedUserNumber, int number)
+        public bool CheckRightAnswer(int checkedUserNumber, int number)
         {
             int result = number - checkedUserNumber;
             if (result == 0)

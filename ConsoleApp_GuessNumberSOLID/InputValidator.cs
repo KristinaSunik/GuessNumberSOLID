@@ -3,13 +3,19 @@ using System;
 
 namespace ConsoleApp_GuessNumberSOLID
 {
-    public static class Validator
+    public class InputValidator: IValidator
     {
+        private INotificationService ConsoleWriter;
+
+        public InputValidator(INotificationService notificationService) 
+        {
+            ConsoleWriter = notificationService;
+        }
 
         /// <summary>
         /// Проверяет вводимое пользователем число, что это числительное.
         /// </summary>
-        public static bool CheckIsNumber(string userAnswer, out int checkedUserNumber)
+        public bool CheckIsNumber(string userAnswer, out int checkedUserNumber)
         {
             if (int.TryParse(userAnswer, out checkedUserNumber))
             {
@@ -25,7 +31,7 @@ namespace ConsoleApp_GuessNumberSOLID
         /// <summary>
         /// Проверяет вводимое пользователем число, что оно в заданном диапазоне.
         /// </summary>
-        public static bool CheckIsInRange(GamePart gamePart, int checkedUserNumber, int range)
+        public bool CheckIsInRange(GamePart gamePart, int checkedUserNumber, int range)
         {
             if (!gamePart.Equals(GamePart.Start) && (checkedUserNumber <= 0 || checkedUserNumber > range))
             {
@@ -41,7 +47,7 @@ namespace ConsoleApp_GuessNumberSOLID
         /// Проверка ответа пользователя на запрос о новой игре.
         /// </summary>
         /// <returns>true - если ответ валидный </returns>
-        public static bool CheckContinueAnswer(string userAnswer, out bool checkedAnswer)
+        public bool CheckContinueAnswer(string userAnswer, out bool checkedAnswer)
         {
             checkedAnswer = false;
 

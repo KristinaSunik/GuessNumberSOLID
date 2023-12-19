@@ -5,16 +5,16 @@ namespace ConsoleApp_GuessNumberSOLID
     /// <summary>
     /// Вывод сообщений на консоль
     /// </summary>
-    public static class ConsoleWriter
+    public class ConsoleWriter : INotificationService
     {
-        public static void PrintStartQuestion()
+        public void PrintStartQuestion()
         {
             Console.WriteLine("Привет, поиграем?!" + Environment.NewLine + 
                 "Угадай число, что я тебе загадаю!" + Environment.NewLine + 
                 "В каком диапазоне загадать число, от нуля до скольки?");
         }
 
-        public static void PrintAnswer(Answer answer, int number) 
+        public void PrintAnswer(Answer answer, int number) 
         {
             switch (answer)
             {
@@ -37,7 +37,7 @@ namespace ConsoleApp_GuessNumberSOLID
         }
 
 
-        public static void PrintError(ErrorType errorType, int number = 0)
+        public void PrintError(ErrorType errorType, int number = 0)
         {
             switch (errorType)
             {
@@ -56,7 +56,7 @@ namespace ConsoleApp_GuessNumberSOLID
             }
         }
 
-        public static void PrintTheReplayQuestion()
+        public void PrintTheReplayQuestion()
         {
             Console.WriteLine("Повторим? Y/N");
         }
