@@ -17,9 +17,9 @@ namespace ConsoleApp_GuessNumberSOLID
 
             do
             {
-                playGame.MainPlay(GamePart.Start, out range);
+                playGame.PlaySettings(out range);
                 number = randomizer.Next(range);
-                playGame.MainPlay(GamePart.Guessing, out int rightNumber, number, range);
+                playGame.MainPlay(GamePart.Guessing, number, range);
 
                 anotherGame = playGame.GetAnswerUserWantsContinue();
 

@@ -5,6 +5,8 @@ namespace ConsoleApp_GuessNumberSOLID
     {
         NotInt,
         OutOfRange,
-        WrongAnswer
+        WrongAnswer,
+        OutOfTries,
+        LastTry
     }
 }

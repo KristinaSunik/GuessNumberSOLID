@@ -4,6 +4,7 @@ namespace ConsoleApp_GuessNumberSOLID
 {
     public class PlayGame : IPlayGame
     {
+        private int TriesCount;
         private IValidator Validator;
         private INotificationService ConsoleWriter;
 
@@ -13,30 +14,61 @@ namespace ConsoleApp_GuessNumberSOLID
             ConsoleWriter = notificationService;
         }
 
+        public void PlaySettings(out int validRange)
+        {
+            validRange = -1;
+            GamePart gamePart;
+            bool waitRightAnswer = true;
+            for (int i = 0; i < 2; i++)
+            {
+                if (i == 0)
+                {
+                    ConsoleWriter.PrintStartQuestion();
+                    gamePart = GamePart.Start;
+                }
+                else
+                {
+                    ConsoleWriter.PrintTriesQuantityQuestion();
+                    gamePart = GamePart.Settings;
+                    waitRightAnswer = true;
+                }
+
+                while (waitRightAnswer)
+                {
+                    string userAnswer = Console.ReadLine();
+                    if (Validator.CheckIsNumber(userAnswer, out int checkedUserNumber))
+                    {
+                        waitRightAnswer = GenerateAnswer(gamePart, checkedUserNumber);
+                        if (gamePart.Equals(GamePart.Start))
+                        {
+                            validRange = checkedUserNumber;
+                        }
+                        else
+                        {
+                            TriesCount = checkedUserNumber;
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Взаимодействие с пользователем во время игры, пока он не отгадает число.
         /// </summary>
-        public void MainPlay(GamePart gamePart, out int checkedUserNumber, int number = 0, int range = 0)
+        public void MainPlay(GamePart gamePart, int number = 0, int range = 0)
         {
             bool stillGuessing = true;
-            checkedUserNumber = -1;
-
-            if (gamePart.Equals(GamePart.Start))
-            {
-                ConsoleWriter.PrintStartQuestion();
-            }
 
             while (stillGuessing)
             {
                 string userAnswer = Console.ReadLine();
-                if (Validator.CheckIsNumber(userAnswer, out checkedUserNumber))
+                if (Validator.CheckIsNumber(userAnswer, out int checkedUserNumber))
                 {
                     if (!Validator.CheckIsInRange(gamePart, checkedUserNumber, range))
                     {
                         continue;
                     }
-
+                    TriesCount--;
                     stillGuessing = GenerateAnswer(gamePart, checkedUserNumber, number);
                 }
             }
@@ -47,9 +79,9 @@ namespace ConsoleApp_GuessNumberSOLID
         /// </summary>
         /// <param name="gamePart">какая часть игры в данный момент</param>
         /// <param name="checkedUserNumber">проверенный ввод пользователя</param>
-        /// <param name="number">загаданное число</param>
+        /// <param name="RightNumber">загаданное число</param>
         /// <returns></returns>
-        public bool GenerateAnswer(GamePart gamePart, int checkedUserNumber, int number)
+        public bool GenerateAnswer(GamePart gamePart, int checkedUserNumber, int RightNumber = 0)
         {
             switch (gamePart)
             {
@@ -57,11 +89,14 @@ namespace ConsoleApp_GuessNumberSOLID
                     ConsoleWriter.PrintAnswer(Answer.Ready, checkedUserNumber);
                     return false;
                 case GamePart.Guessing:
-                    if (CheckRightAnswer(checkedUserNumber, number))
+                    if (CheckRightAnswer(checkedUserNumber, RightNumber))
                     {
                         return false;
                     }
-                    return true;
+                    return CheckTriesQuantity();
+                case GamePart.Settings:
+                    ConsoleWriter.PrintAnswer(Answer.HaveTries, checkedUserNumber);
+                    return false;
                 default:
                     return false;
             }
@@ -111,6 +146,25 @@ namespace ConsoleApp_GuessNumberSOLID
 
             return false;
 
+        }
+
+        /// <summary>
+        /// Проверка количества использованных попыток.
+        /// </summary>
+        /// <returns>true если еще есть попытки</returns>
+        public bool CheckTriesQuantity()
+        {
+            switch (TriesCount)
+            {
+                case 0:
+                    ConsoleWriter.PrintError(ErrorType.OutOfTries);
+                    return false;
+                case 1:
+                    ConsoleWriter.PrintError(ErrorType.LastTry);
+                    return true;
+                default:
+                    return true;
+            }
         }
     }
 }

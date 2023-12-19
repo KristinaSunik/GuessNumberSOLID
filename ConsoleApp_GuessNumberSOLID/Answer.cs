@@ -6,7 +6,8 @@ namespace ConsoleApp_GuessNumberSOLID
         Less,
         Bigger,
         Equal,
-        Ready
+        Ready,
+        HaveTries
     }
 
 }
